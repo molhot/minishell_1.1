@@ -26,24 +26,49 @@ static void	re_token_in_null(t_token **token, t_token **re_token)
 
 static void	split_tokenword(t_token **token, t_token **re_token)
 {
-	char	**tokenwd_split;
-	size_t	position;
+	char	*token_wd;
+	char	*new_wd;
+	char	type;
 
-	tokenwd_split = ft_split((*token)->word, ' ');
-	position = 0;
-	while (tokenwd_split[position] != NULL)
+	token_wd = (*token)->word;
+	new_wd = NULL;
+	while (*token_wd == ' ' || *token_wd == '\t')
+		token_wd++;
+	while (*token_wd != '\0')
 	{
-		(*re_token)->word = ft_strdup(tokenwd_split[position]);
-		(*re_token)->kind = TK_WORD;
-		if (tokenwd_split[position + 1] != NULL)
+		if (*token_wd == '\"' || *token_wd == '\'')
 		{
-			(*re_token)->next = (t_token *)malloc(sizeof(t_token) * 1);
-			*re_token = (*re_token)->next;
+			type = *token_wd;
+			append_char(&new_wd, *token_wd++);
+			while (*token_wd != type)
+			{
+				if (*token_wd == '\\')
+					append_char(&new_wd, *token_wd++);
+				append_char(&new_wd, *token_wd++);
+			}
+			append_char(&new_wd, *token_wd++);
 		}
-		free(tokenwd_split[position]);
-		position++;
+		else if (*token_wd == '\\')
+			append_char(&new_wd, *token_wd++);
+		else
+			append_char(&new_wd, *token_wd++);
+		if (*token_wd == ' ' || *token_wd == '\t' || *token_wd == '\0')
+		{
+			append_char(&new_wd, '\0');
+			(*re_token)->word = new_wd;
+			(*re_token)->kind = TK_WORD;
+			while (*token_wd == ' ' || *token_wd == '\t')
+				token_wd++;
+			if (*token_wd == '\0')
+				break ;
+			else
+			{
+				(*re_token)->next = (t_token *)malloc(sizeof(t_token) * 1);
+				*re_token = (*re_token)->next;
+				new_wd = NULL;
+			}
+		}
 	}
-	free(tokenwd_split);
 	(*token) = (*token)->next;
 }
 

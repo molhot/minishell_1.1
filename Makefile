@@ -46,7 +46,7 @@ $(OBJS): %.o : %.c
 	$(CC) $(CFLAGS) -I$(RLDIR)/include -c  $< -o $@ 
 
 debug:$(OBJS)
-	$(CC) $(CFLAGS)  $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

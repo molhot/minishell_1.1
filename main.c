@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazuki <kazuki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:27:43 by satushi           #+#    #+#             */
-/*   Updated: 2023/04/11 23:41:27 by kazuki           ###   ########.fr       */
+/*   Updated: 2023/04/12 14:14:05 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ static void	only_redirectch(t_node *node)
 	while (redirect != NULL)
 	{
 		if (redirect->redirectfile == -1 || redirect->ambigous == true)
+		{
 			redirectfile_check(redirect);
+			g_env->err_status = 1;
+		}
 		redirect = redirect->next;
 	}
-	g_env->err_status = 1;
 }
 
 static void	exec_switching(t_node *node)

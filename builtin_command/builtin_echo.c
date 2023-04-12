@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazuki <kazuki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 20:19:18 by user              #+#    #+#             */
-/*   Updated: 2023/04/07 17:50:14 by kazuki           ###   ########.fr       */
+/*   Updated: 2023/04/12 13:43:14 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	check_option(char *option)
 		i = 1;
 		while (option[i] == 'n')
 			i++;
-		if (option[i] != '\0')
+		if (option[i] != '\0' || i == 1)
 			return (false);
 		else
 			return (true);

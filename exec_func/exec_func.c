@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazuki <kazuki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 01:39:08 by satushi           #+#    #+#             */
-/*   Updated: 2023/04/11 23:37:18 by kazuki           ###   ########.fr       */
+/*   Updated: 2023/04/12 14:03:26 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,20 @@ pid_t	exec_pipeline(t_node *node)
 	argv = args_to_argv(node->command->args);
 	if (!argv)
 		fatal_error("malloc");
-	if (argv[0] != NULL)
+	exec_check(node, argv[0]);
+	prepare_pipe(node);
+	pid = fork();
+	if (pid < 0)
+		fatal_error("fork");
+	else if (pid == 0 && argv[0] != NULL)
+		child_process(node, argv[0], argv, environ);
+	else if (pid == 0 && argv[0] == NULL)
 	{
-		exec_check(node, argv[0]);
-		prepare_pipe(node);
-		pid = fork();
-		if (pid < 0)
-			fatal_error("fork");
-		else if (pid == 0)
-			child_process(node, argv[0], argv, environ);
-		prepare_pipe_parent(node);
-		aray_free(argv);
-	}
-	else if (*(node->command->redirect) != NULL)
 		redirectfile_check(*(node->command->redirect));
+		exit(0);
+	}
+	prepare_pipe_parent(node);
+	aray_free(argv);
 	if (node->next)
 		return (exec_pipeline(node->next));
 	return (pid);

@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 17:39:39 by user              #+#    #+#             */
-/*   Updated: 2023/04/03 23:51:04 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/12 15:13:28 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ char	**ready_nextenviron(void)
 	position = 0;
 	while (head != NULL)
 	{
-		n_env[position] = conbinate_keyvalue(head);
-		position++;
+		if (head->value != NULL)
+		{
+			n_env[position] = conbinate_keyvalue(head);
+			position++;
+		}
 		head = head->next;
 	}
 	n_env[position] = NULL;
