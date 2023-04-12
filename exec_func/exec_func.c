@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 01:39:08 by satushi           #+#    #+#             */
-/*   Updated: 2023/04/12 14:03:26 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/13 00:47:50 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,16 @@ void	exec_check(t_node *node, char *path)
 	free(checked_path);
 }
 
+void	redirectfile_check_noexe(t_redirect *redirect)
+{
+	while (redirect != NULL)
+	{
+		if (redirect->redirectfile == -1 || redirect->ambigous == true)
+			redirectfile_check(redirect);
+		redirect = redirect->next;
+	}
+}
+
 pid_t	exec_pipeline(t_node *node)
 {
 	extern char	**environ;
@@ -93,16 +103,18 @@ pid_t	exec_pipeline(t_node *node)
 	argv = args_to_argv(node->command->args);
 	if (!argv)
 		fatal_error("malloc");
-	exec_check(node, argv[0]);
 	prepare_pipe(node);
 	pid = fork();
 	if (pid < 0)
 		fatal_error("fork");
 	else if (pid == 0 && argv[0] != NULL)
+	{
+		exec_check(node, argv[0]);
 		child_process(node, argv[0], argv, environ);
+	}
 	else if (pid == 0 && argv[0] == NULL)
 	{
-		redirectfile_check(*(node->command->redirect));
+		redirectfile_check_noexe(*(node->command->redirect));
 		exit(0);
 	}
 	prepare_pipe_parent(node);
