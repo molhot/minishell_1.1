@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 20:21:24 by user              #+#    #+#             */
-/*   Updated: 2023/04/12 15:06:26 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/12 17:23:22 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,8 @@ void	ms_exit(char *line, t_command *command)
 		g_env->err_status = 0;
 		exit(g_env->err_status);
 	}
-	if (!ms_atoi(arg) || (ms_atoi(arg) == -1 \
-		&& ft_strlen(arg) > 2))
+	if (!ms_atoi(arg) || (ms_atoi(arg) == -1 && ft_strlen(arg) > 2))
 		show_error_exit();
-	if (atolch(arg) == false)
-		exit (255);
 	printf("exit\n");
 	exit(ms_atoi(commands[1]));
 }

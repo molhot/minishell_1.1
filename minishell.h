@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazuki <kazuki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:28:10 by user              #+#    #+#             */
-/*   Updated: 2023/04/07 18:06:59 by kazuki           ###   ########.fr       */
+/*   Updated: 2023/04/12 20:35:13 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,9 @@ char						*expand_args_redirect(char *args, char *args_free);
 void						specialparam_check(t_redirect *redirect);
 void						quote_append(char **args, char **new_word);
 void						not_expnad(char **dst, char **rest, char *p);
+void						remake_token_insplit(char **wd, char **new_wd);
+void						remaking_blank(char **new_wd, char \
+**token_wd, t_token **re_token);
 
 /************* signal handler ************/
 
@@ -254,7 +257,6 @@ bool						is_redirect(const char *s);
 bool						is_word(const char *s);
 bool						ft_isspace(char c);
 bool						consume_blank(char **rest, char *line);
-bool						startswith(const char *s, const char *keyword);
 bool						word_blankcheck(char *string);
 
 /**************** utils ****************/

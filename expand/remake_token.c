@@ -28,7 +28,6 @@ static void	split_tokenword(t_token **token, t_token **re_token)
 {
 	char	*token_wd;
 	char	*new_wd;
-	char	type;
 
 	token_wd = (*token)->word;
 	new_wd = NULL;
@@ -37,37 +36,16 @@ static void	split_tokenword(t_token **token, t_token **re_token)
 	while (*token_wd != '\0')
 	{
 		if (*token_wd == '\"' || *token_wd == '\'')
+			remake_token_insplit(&token_wd, &new_wd);
+		else if (*token_wd == '\\')
 		{
-			type = *token_wd;
 			append_char(&new_wd, *token_wd++);
-			while (*token_wd != type)
-			{
-				if (*token_wd == '\\')
-					append_char(&new_wd, *token_wd++);
-				append_char(&new_wd, *token_wd++);
-			}
 			append_char(&new_wd, *token_wd++);
 		}
-		else if (*token_wd == '\\')
-			append_char(&new_wd, *token_wd++);
 		else
 			append_char(&new_wd, *token_wd++);
 		if (*token_wd == ' ' || *token_wd == '\t' || *token_wd == '\0')
-		{
-			append_char(&new_wd, '\0');
-			(*re_token)->word = new_wd;
-			(*re_token)->kind = TK_WORD;
-			while (*token_wd == ' ' || *token_wd == '\t')
-				token_wd++;
-			if (*token_wd == '\0')
-				break ;
-			else
-			{
-				(*re_token)->next = (t_token *)malloc(sizeof(t_token) * 1);
-				*re_token = (*re_token)->next;
-				new_wd = NULL;
-			}
-		}
+			remaking_blank(&new_wd, &token_wd, re_token);
 	}
 	(*token) = (*token)->next;
 }
