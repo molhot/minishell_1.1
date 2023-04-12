@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 20:21:24 by user              #+#    #+#             */
-/*   Updated: 2023/04/12 17:23:22 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/12 22:28:01 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static	bool	commandch(char **commands)
 	posi = 0;
 	while (commands[posi] != NULL)
 	{
-		if (posi == 2)
+		if (posi == 1)
 			if (atolch(commands[posi]) == false)
 				exit (255);
 		posi++;
