@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 01:39:08 by satushi           #+#    #+#             */
-/*   Updated: 2023/04/13 00:47:50 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/13 21:58:22 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	child_process(t_node *node, char *path, char **argv, char **environ)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	prepare_pipe_child(node);
+	if (path == NULL)
+		exit(0);
 	if (redirect_reconect(node->command) == 1)
 		exit(1);
 	if (is_builtin(node->command->args->word))
@@ -115,7 +117,7 @@ pid_t	exec_pipeline(t_node *node)
 	else if (pid == 0 && argv[0] == NULL)
 	{
 		redirectfile_check_noexe(*(node->command->redirect));
-		exit(0);
+		child_process(node, NULL, argv, environ);
 	}
 	prepare_pipe_parent(node);
 	aray_free(argv);

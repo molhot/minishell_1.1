@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:27:43 by satushi           #+#    #+#             */
-/*   Updated: 2023/04/13 21:17:13 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/13 21:59:34 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	only_redirectch(t_node *node)
 
 static void	exec_switching(t_node *node)
 {
-	if (node->command->args == NULL && node->command->redirect != NULL)
+	if (node->command->args == NULL && node->command->redirect != NULL && node->next == NULL)
 	{
 		ready_redirection_file(node);
 		while (node != NULL)
@@ -70,13 +70,8 @@ static void	exec_switching(t_node *node)
 	}
 	else if (node->next == NULL && is_builtin(node->command->args->word))
 		builtin_exec(node);
-	else if (node->command->args->word != NULL)
-		exec(node);
 	else
-	{
-		printf("minishell: :command not found\n");
-		g_env->err_status = 127;
-	}
+		exec(node);
 }
 
 static void	readline_execpart(char *line)
