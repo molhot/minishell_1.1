@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:28:10 by user              #+#    #+#             */
-/*   Updated: 2023/04/12 20:35:13 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/14 00:33:55 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,5 +290,6 @@ bool						startswith(const char *s, const char *keyword);
 
 /**************** free ****************/
 void						free_token(t_token *head);
+void						redirect_recover(t_redirect **redirect_array);
 
 #endif
