@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:27:43 by satushi           #+#    #+#             */
-/*   Updated: 2023/04/12 14:14:05 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/13 21:17:13 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static void	only_redirectch(t_node *node)
 	redirect = *(node->command->redirect);
 	while (redirect != NULL)
 	{
-		if (redirect->redirectfile == -1 || redirect->ambigous == true)
+		if ((redirect->redirectfile == -1 || redirect->ambigous == true) \
+		&& redirect->type != HEREDOC)
 		{
 			redirectfile_check(redirect);
 			g_env->err_status = 1;
