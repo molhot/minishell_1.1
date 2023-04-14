@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
+/*   By: kazuki <kazuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:28:10 by user              #+#    #+#             */
-/*   Updated: 2023/04/14 00:33:55 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/14 20:52:02 by kazuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,10 +229,12 @@ void						signal_handler(int signal);
 /************* execfunction ************/
 
 void						exec(t_node *node);
-void						exec_check(t_node *node, char *path);
+void						check_executable(t_node *node, char *path);
 int							do_builtin(char *line, t_command *command);
 int							abusolute_path(char *line);
 void						ready_redirection_file(t_node *node);
+void						redirectfile_check(t_redirect *redirect);
+void						redirectfile_check_noexe(t_redirect *redirect);
 int							redirect_reconect(t_command *command);
 void						prepare_pipe(t_node *node);
 void						prepare_pipe_child(t_node *node);
@@ -285,7 +287,7 @@ void						fatal_error(const char *msg) \
 void						free_node(t_node *node);
 void						free_commands(char **commands);
 void						free_redirect(t_redirect *redirect);
-pid_t						exec_pipeline(t_node *node);
+pid_t						exec_command_line(t_node *node);
 bool						startswith(const char *s, const char *keyword);
 
 /**************** free ****************/
