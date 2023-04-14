@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 20:19:18 by user              #+#    #+#             */
-/*   Updated: 2023/04/14 08:10:28 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/14 19:30:55 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	check_option(char *option)
 	return (false);
 }
 
-static void	print_with_newline(char **commands, t_command *command)
+static void	print_with_newline(char **commands)
 {
 	size_t	i;
 
@@ -38,11 +38,11 @@ static void	print_with_newline(char **commands, t_command *command)
 		ft_putstr_fd("", 1);
 	while (commands[i] != NULL)
 	{
-		ft_putstr_fd(commands[i++], command->out_fd[1]);
+		ft_putstr_fd(commands[i++], 1);
 		if (commands[i] != NULL)
-			ft_putstr_fd(" ", command->out_fd[1]);
+			ft_putstr_fd(" ", 1);
 	}
-	ft_putstr_fd("\n", command->out_fd[1]);
+	ft_putstr_fd("\n", 1);
 }
 
 static void	print_without_newline(char **commands)
@@ -78,7 +78,7 @@ int	ms_echo(char *line, t_command *command)
 	if (commands[1] != NULL && check_option(commands[i]))
 		print_without_newline(commands);
 	else if (commands[1])
-		print_with_newline(commands, command);
+		print_with_newline(commands);
 	else
 		ft_putchar_fd('\n', 1);
 	free_commands(commands);

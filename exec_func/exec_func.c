@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 01:39:08 by satushi           #+#    #+#             */
-/*   Updated: 2023/04/14 08:50:03 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/14 12:31:19 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ void	child_process(t_node *node, char *path, char **argv, char **environ)
 			if (searchpath(path) == NULL)
 				exit(127);
 			else
-			{
-				//dprintf(node->command->out_fd[1], ">>%s\n", argv[1]);
 				execve(searchpath(path), argv, environ);
-			}
 		}
 		printf("commad not found :x\n");
 		exit(127);
