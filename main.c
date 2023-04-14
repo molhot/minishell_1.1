@@ -6,7 +6,7 @@
 /*   By: kazuki <kazuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:27:43 by satushi           #+#    #+#             */
-/*   Updated: 2023/04/14 20:53:16 by kazuki           ###   ########.fr       */
+/*   Updated: 2023/04/14 22:19:10 by kazuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_map		*g_env;
 
-static void	redirectfile_check(t_redirect *redirect)
+/*static void	redirectfile_check(t_redirect *redirect)
 {
 	int	fd;
 
@@ -38,7 +38,7 @@ static void	redirectfile_check(t_redirect *redirect)
 		perror(redirect->file_path);
 	}
 	g_env->err_status = 1;
-}
+}*/
 
 static void	only_redirectch(t_node *node)
 {
