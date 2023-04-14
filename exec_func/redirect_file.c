@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 01:32:50 by satushi           #+#    #+#             */
-/*   Updated: 2023/04/14 00:25:05 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/14 09:10:55 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	redirect_reconect(t_command *command)
 			redirect->stashed_fd = stashfd(0);
 			inout_reconnect(redirect->redirectfile, 0, command);
 		}
-		else if (redirect->type == OUT || redirect->type == APPEND)
+		if (redirect->type == OUT || redirect->type == APPEND)
 		{
 			redirect->stashed_fd = stashfd(1);
 			inout_reconnect(redirect->redirectfile, 1, command);
