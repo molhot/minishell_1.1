@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
+/*   By: kazuki <kazuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 01:39:08 by satushi           #+#    #+#             */
+/*   Updated: 2023/04/14 20:49:18 by kazuki           ###   ########.fr       */
 /*   Updated: 2023/04/14 12:31:19 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	child_process(t_node *node, char *path, char **argv, char **environ)
+void	generate_child(t_node *node, char *path, char **argv, char **environ)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -39,32 +40,7 @@ void	child_process(t_node *node, char *path, char **argv, char **environ)
 	}
 }
 
-static void	redirectfile_check(t_redirect *redirect)
-{
-	int	fd;
-
-	if (redirect->file_path == NULL || redirect->ambigous == true)
-		printf("minishell: %s: ambiguous redirect\n", \
-		redirect->file_path);
-	else
-	{
-		if (redirect->type == IN)
-			fd = open(redirect->file_path, O_RDONLY);
-		if (redirect->type == OUT)
-			fd = open(redirect->file_path, \
-			O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (redirect->type == APPEND)
-			fd = open(redirect->file_path, \
-			O_CREAT | O_WRONLY | O_APPEND, 0644);
-		if (fd != -1)
-			close (fd);
-		write(2, "minishell: ", 12);
-		perror(redirect->file_path);
-	}
-	g_env->err_status = 1;
-}
-
-void	exec_check(t_node *node, char *path)
+void	check_executable(t_node *node, char *cmd)
 {
 	t_redirect	*redirect;
 	char		*checked_path;
@@ -76,27 +52,31 @@ void	exec_check(t_node *node, char *path)
 			return (redirectfile_check(redirect));
 		redirect = redirect->next;
 	}
-	checked_path = searchpath(path);
-	if (is_builtin(path) == false && path[0] != '/' && path[0] != '.' \
-	&& checked_path == NULL && ft_strcmp("exit", path) != 0)
+	checked_path = searchpath(cmd);
+	if (is_builtin(cmd) == false && cmd[0] != '/' && cmd[0] != '.' \
+	&& checked_path == NULL && ft_strcmp("exit", cmd) != 0)
 	{
-		printf("minishell: %s: command not found :x\n", path);
+		printf("minishell: %s: command not found :x\n", cmd);
 		g_env->err_status = 127;
 	}
 	free(checked_path);
 }
 
-void	redirectfile_check_noexe(t_redirect *redirect)
+static void	exec_command(pid_t pid, t_node *node, char **argv, char **environ)
 {
-	while (redirect != NULL)
+	if (pid == 0 && argv[0] != NULL)
 	{
-		if (redirect->redirectfile == -1 || redirect->ambigous == true)
-			redirectfile_check(redirect);
-		redirect = redirect->next;
+		check_executable(node, argv[0]);
+		generate_child(node, argv[0], argv, environ);
+	}
+	else if (pid == 0 && argv[0] == NULL)
+	{
+		redirectfile_check_noexe(*(node->command->redirect));
+		generate_child(node, NULL, argv, environ);
 	}
 }
 
-pid_t	exec_pipeline(t_node *node)
+pid_t	exec_command_line(t_node *node)
 {
 	extern char	**environ;
 	pid_t		pid;
@@ -109,20 +89,11 @@ pid_t	exec_pipeline(t_node *node)
 	pid = fork();
 	if (pid < 0)
 		fatal_error("fork");
-	else if (pid == 0 && argv[0] != NULL)
-	{
-		exec_check(node, argv[0]);
-		child_process(node, argv[0], argv, environ);
-	}
-	else if (pid == 0 && argv[0] == NULL)
-	{
-		redirectfile_check_noexe(*(node->command->redirect));
-		child_process(node, NULL, argv, environ);
-	}
+	exec_command(pid, node, argv, environ);
 	prepare_pipe_parent(node);
 	aray_free(argv);
 	if (node->next)
-		return (exec_pipeline(node->next));
+		return (exec_command_line(node->next));
 	return (pid);
 }
 
@@ -142,7 +113,7 @@ void	exec(t_node *node)
 			rl_event_hook = NULL;
 			return ;
 		}
-		last_pid = exec_pipeline(node);
+		last_pid = exec_command_line(node);
 	}
 	wait_pipeline(last_pid);
 }
