@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
+/*   By: kazuki <kazuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:27:43 by satushi           #+#    #+#             */
-/*   Updated: 2023/04/13 21:59:34 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/14 20:53:16 by kazuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static void	only_redirectch(t_node *node)
 
 static void	exec_switching(t_node *node)
 {
-	if (node->command->args == NULL && node->command->redirect != NULL && node->next == NULL)
+	if (node->command->args == NULL && node->command->redirect != NULL && \
+		node->next == NULL)
 	{
 		ready_redirection_file(node);
 		while (node != NULL)

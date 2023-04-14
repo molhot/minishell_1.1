@@ -44,7 +44,7 @@ void	builtin_exec(t_node *node)
 	if (!argv)
 		fatal_error("malloc");
 	ready_redirection_file(node);
-	exec_check(node, argv[0]);
+	check_executable(node, argv[0]);
 	i = 0;
 	while (argv[i])
 	{

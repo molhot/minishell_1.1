@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 01:16:50 by satushi           #+#    #+#             */
-/*   Updated: 2023/04/14 09:27:28 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/14 11:32:25 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	prepare_pipe(t_node *node)
 void	prepare_pipe_child(t_node *node)
 {
 	if (node->command->out_fd[0] != -1)
-		close(node->command->out_fd[0]);
+		xclose(node->command->out_fd[0]);
 	dup2(node->command->in_fd[0], STDIN_FILENO);
 	if (node->command->in_fd[0] != STDIN_FILENO)
 		close(node->command->in_fd[0]);
