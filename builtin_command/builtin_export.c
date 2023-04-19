@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 20:22:25 by user              #+#    #+#             */
-/*   Updated: 2023/04/04 22:15:19 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/20 01:22:40 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,20 @@ void	check_export_arguments(char **command)
 	}
 }
 
+static bool	export_nullcheck(char **commands)
+{
+	size_t	position;
+
+	position = 1;
+	while (commands[position] != NULL)
+	{
+		if (ft_strcmp(commands[position], "") != 0)
+			return (false);
+		position++;
+	}
+	return (true);
+}
+
 void	ms_export(char *line, t_command *command)
 {
 	char	**commands;
@@ -97,7 +111,7 @@ void	ms_export(char *line, t_command *command)
 		fatal_error("malloc");
 	if (commands[0] != NULL)
 	{
-		if (commands[1] == NULL)
+		if (export_nullcheck(commands) == true)
 		{
 			free_commands(commands);
 			g_env->err_status = 0;

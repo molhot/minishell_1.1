@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_array.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 20:26:48 by user              #+#    #+#             */
-/*   Updated: 2023/02/25 15:03:24 by user             ###   ########.fr       */
+/*   Updated: 2023/04/20 01:14:01 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**command_to_array(t_command *command)
 
 	array_num = 0;
 	args = command->args;
-	while (args != NULL && args->word != NULL)
+	while (args != NULL)
 	{
 		array_num++;
 		args = args->next;

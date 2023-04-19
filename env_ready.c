@@ -6,7 +6,7 @@
 /*   By: mochitteiunon? <sakata19991214@gmail.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 17:39:39 by user              #+#    #+#             */
-/*   Updated: 2023/04/12 15:13:28 by mochitteiun      ###   ########.fr       */
+/*   Updated: 2023/04/20 01:09:06 by mochitteiun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,6 @@ void	env_init(void)
 		free(name);
 		i++;
 	}
+	map_set(&g_env, "PWD", getcwd(cwd, sizeof(cwd)));
+	map_set(&g_env, "OLDPWD", NULL);
 }

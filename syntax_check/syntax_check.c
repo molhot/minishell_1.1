@@ -47,6 +47,7 @@ static bool	check_redirectsyntax(t_token *tok)
 	if (tok->next->kind == TK_EOF)
 	{
 		printf("-minishell: syntax error near unexpected token `newline'\n");
+		g_env->err_status = 258;
 		return (false);
 	}
 	if (tok->next->kind == TK_REDIRECT && tok->word[0] != tok->next->word[0])
@@ -61,8 +62,13 @@ static bool	check_redirectsyntax(t_token *tok)
 
 bool	tokcheck(t_token *tok)
 {
+	bool	f_action;
+
+	f_action = true;
 	while (tok != NULL)
 	{
+		if (f_action == true && tok->kind == TK_OP)
+			return (errorsyntax(tok->word));
 		if (tok->kind == TK_REDIRECT)
 		{
 			if (false == check_redirectsyntax(tok))
@@ -71,9 +77,13 @@ bool	tokcheck(t_token *tok)
 		if (tok->kind == TK_OP)
 		{
 			if (false == check_opsyntax(tok))
+			{
+				g_env->err_status = 258;
 				return (false);
+			}
 		}
 		tok = tok->next;
+		f_action = false;
 	}
 	return (true);
 }
